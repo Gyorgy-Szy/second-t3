@@ -4,10 +4,12 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import styles from "./index.module.css";
 
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, SignInButton, useUser, useAuth } from "@clerk/nextjs";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const user = useUser();
+  const auth = useAuth();
 
   return (
     <>
@@ -21,27 +23,22 @@ export default function Home() {
           <h1 className={styles.title}>
             Simple t3 App with clerk
           </h1>
-          <h1 className={styles.title}>
-            Button:<UserButton afterSignOutUrl="/" />
-          </h1>
-          <div className={styles.cardRow}>
-            <div
-              className={styles.card}
-            >
-              <Link href="/sign-in">LOGIN</Link>
-              <p>Auth data</p>
-              <pre>
 
-              </pre>
+          <div className={styles.cardRow}>
+            <div className={styles.card}>
+              {auth.isSignedIn
+                ? <UserButton afterSignOutUrl="/" />
+                : <><Link href="/sign-in">LOGIN</Link>
+                  <SignInButton /></>
+              }
+              <p>Auth data</p>
+              <pre>{JSON.stringify(auth, null, 2)}</pre>
             </div>
           </div>
           <div className={styles.cardRow}>
-            <div
-              className={styles.card}
-            >
-              <pre>
-                asbsdf
-              </pre>
+            <div className={styles.card}>
+              <p>User data</p>
+              <pre>{JSON.stringify(user, null, 2)}</pre>
             </div>
           </div>
 
