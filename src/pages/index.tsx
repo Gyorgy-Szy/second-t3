@@ -1,15 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import styles from "./index.module.css";
 
 import { UserButton, SignInButton, useUser, useAuth } from "@clerk/nextjs";
+import { LoadingSpinner } from "~/components/loading";
+
+
+type PostWithUser = RouterOutputs["post"]['getAll'][number];
+const PostView = (fullPost: PostWithUser) => {
+  return (
+    <li key={fullPost.post.id}> Post: {fullPost.post.content}  {fullPost.author?.username ? "Author: " + fullPost.author?.username : "-No-Author-defined-"}</li>
+  )
+}
+
 
 export default function Home() {
-  const { data } = api.post.getAll.useQuery();
+  const { data, isLoading } = api.post.getAll.useQuery();
   const user = useUser();
   const auth = useAuth();
+
+  if (isLoading) return <LoadingSpinner />;
+  if (!data) return <div>Something went wrong.</div>
 
   return (
     <>
@@ -36,9 +49,8 @@ export default function Home() {
             </div>
           </div>
 
-
           <ul className={styles.showcaseText}>
-            {data?.map(({ post, author }) => <li key={post.id}>Post: {post.content} Author: {author?.username}</li>)}
+            {data?.map(fullPost => <PostView {...fullPost} key={fullPost.post.id} />)}
           </ul>
 
 
