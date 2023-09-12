@@ -4,6 +4,8 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import styles from "./index.module.css";
 
+import { UserButton } from "@clerk/nextjs";
+
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
@@ -17,32 +19,32 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.title}>
-            Create <span className={styles.pinkSpan}>T3</span> App
+            Simple t3 App with clerk
+          </h1>
+          <h1 className={styles.title}>
+            Button:<UserButton afterSignOutUrl="/" />
           </h1>
           <div className={styles.cardRow}>
-            <Link
+            <div
               className={styles.card}
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
             >
-              <h3 className={styles.cardTitle}>First Steps →</h3>
-              <div className={styles.cardText}>
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className={styles.card}
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className={styles.cardTitle}>Documentation →</h3>
-              <div className={styles.cardText}>
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
+              <Link href="/sign-in">LOGIN</Link>
+              <p>Auth data</p>
+              <pre>
+
+              </pre>
+            </div>
           </div>
+          <div className={styles.cardRow}>
+            <div
+              className={styles.card}
+            >
+              <pre>
+                asbsdf
+              </pre>
+            </div>
+          </div>
+
           <p className={styles.showcaseText}>
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
           </p>
