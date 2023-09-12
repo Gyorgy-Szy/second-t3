@@ -17,11 +17,11 @@ const PostView = (fullPost: PostWithUser) => {
 
 
 export default function Home() {
-  const { data, isLoading } = api.post.getAll.useQuery();
-  const user = useUser();
+  const { data, isLoading: postsLoading } = api.post.getAll.useQuery();
+  const { user, isLoaded: userLoaded } = useUser();
   const auth = useAuth();
 
-  if (isLoading) return <LoadingSpinner />;
+  if (postsLoading) return <LoadingSpinner />;
   if (!data) return <div>Something went wrong.</div>
 
   return (
