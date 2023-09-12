@@ -38,7 +38,7 @@ export default function Home() {
 
 
           <ul className={styles.showcaseText}>
-            {data?.map(post => <li key={post.id}>Post: {post.content}</li>)}
+            {data?.map(({ post, author }) => <li key={post.id}>Post: {post.content} Author: {author?.username}</li>)}
           </ul>
 
 
