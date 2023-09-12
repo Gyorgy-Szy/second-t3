@@ -7,7 +7,7 @@ import styles from "./index.module.css";
 import { UserButton, SignInButton, useUser, useAuth } from "@clerk/nextjs";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data } = api.post.getAll.useQuery();
   const user = useUser();
   const auth = useAuth();
 
@@ -35,16 +35,19 @@ export default function Home() {
               <pre>{JSON.stringify(auth, null, 2)}</pre>
             </div>
           </div>
+
+
+          <ul className={styles.showcaseText}>
+            {data?.map(post => <li key={post.id}>Post: {post.content}</li>)}
+          </ul>
+
+
           <div className={styles.cardRow}>
             <div className={styles.card}>
               <p>User data</p>
               <pre>{JSON.stringify(user, null, 2)}</pre>
             </div>
           </div>
-
-          <p className={styles.showcaseText}>
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
         </div>
       </main>
     </>
